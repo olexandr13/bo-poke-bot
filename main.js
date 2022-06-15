@@ -92,9 +92,9 @@ bot.on('message', async (msg) => {
 });
 
 bot.on('message', async (msg) => {
-  const botTestTrigger = 'bot:time';
+  const botTimeTrigger = 'bot:time';
 
-  if (msg.text.toString().toLowerCase().includes(botTestTrigger)) {
-    bot.sendMessage(msg.chat.id, new Date());
+  if (msg.text.toString().toLowerCase().includes(botTimeTrigger)) {
+    bot.sendMessage(msg.chat.id, new Date().toString());
   }
 });

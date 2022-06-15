@@ -37,11 +37,9 @@ function calcDaysPassedTillLastUpdate(issue) {
 }
 
 setInterval(async () => {
-  const now = new Date();
-  if (now.getDay() === 3) {
-    bot.sendMessage(msg.chat.id, 'I am running like a cron');
-  }
-}, 1000 * 60);
+  console.log('testing...');
+  bot.sendMessage(msg.chat.id, 'I am running like a cron');
+}, 1000 * 15);
 
 bot.on('message', async (msg) => {
   // do nothing on weekend

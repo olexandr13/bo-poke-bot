@@ -36,11 +36,6 @@ function calcDaysPassedTillLastUpdate(issue) {
   return Math.floor(timePassed / (1000 * 60 * 60 * 24));
 }
 
-setInterval(async () => {
-  console.log('testing...');
-  bot.sendMessage(msg.chat.id, 'I am running like a cron');
-}, 1000 * 15);
-
 bot.on('message', async (msg) => {
   // do nothing on weekend
   if (new Date().getDay() === 6 || new Date().getDay() === 0) {
@@ -98,3 +93,14 @@ bot.on('message', async (msg) => {
     bot.sendMessage(msg.chat.id, new Date().toString());
   }
 });
+
+bot.on('message', async (msg) => {
+  const botPollingTrigger = 'bot:polling';
+  if (msg.text.toString().toLowerCase().includes(botPollingTrigger)) {
+    setInterval(async () => {
+      console.log('testing...');
+      bot.sendMessage(msg.chat.id, 'I am running like a cron');
+    }, 1000 * 15);
+  }
+});
+

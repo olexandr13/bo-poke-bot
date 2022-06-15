@@ -53,10 +53,7 @@ bot.on('message', async (msg) => {
           if (issue.fields.issuetype.subtask) continue;
           // if task was updated less than 2 days ago
           if (calcDaysPassedTillLastUpdate(issue) < 2) {
-            bot.sendMessage(
-              msg.chat.id,
-              `Issue ${issue.key} was updated ${calcDaysPassedTillLastUpdate(issue)} days ago`
-            );
+            console.log(`Issue ${issue.key} was updated ${calcDaysPassedTillLastUpdate(issue)} days ago`);
             continue;
           }
           setTimeout(() => {

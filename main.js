@@ -66,22 +66,22 @@ bot.on('message', async (msg) => {
           setTimeout(() => {
             bot.sendMessage(
               msg.chat.id,
-              `${usernames[issue.fields.assignee?.displayName] || ''}
-Эта задача висит в Code Review уже ${calcTimePassed(issue)} дней
-
-${issue.fields.summary}
-https://velasnetwork.atlassian.net/browse/VTX-2375`
+              `${
+                usernames[issue.fields.assignee?.displayName] || ''
+              }\nЭта задача висит в Code Review уже ${calcTimePassed(issue)} дней\n\n${
+                issue.fields.summary
+              }\nhttps://velasnetwork.atlassian.net/browse/VTX-2375`
             );
           }, 1000 * i);
-          return;
         }
 
         if (!outDatedIssuesAmount) {
           let okMessage = '';
           if (!issues.length) okMessage += '\nВсе задачи прошли Code Review! Это успех!';
-          if (recentlyUpdatedIssuesAmout) `Задач в статусе Code Review: ${recentlyUpdatedIssuesAmout}`;
-          console.log('okMessage', okMessage);
-          bot.sendMessage(msg.chat.id, okMessage);
+          if (recentlyUpdatedIssuesAmout) okMessage = `Задач в статусе Code Review: ${recentlyUpdatedIssuesAmout}`;
+          if (okMessage) {
+            bot.sendMessage(msg.chat.id, okMessage);
+          }
         }
       })
       .catch((error) => {

@@ -79,8 +79,8 @@ https://velasnetwork.atlassian.net/browse/VTX-2375`
         if (!outDatedIssuesAmount) {
           let okMessage = '';
           if (!issues.length) okMessage += '\nВсе задачи прошли Code Review! Это успех!';
-          if (recentlyUpdatedIssuesAmout)
-            `Задач в статусе Code Review: ${recentlyUpdatedIssuesAmout}`;
+          if (recentlyUpdatedIssuesAmout) `Задач в статусе Code Review: ${recentlyUpdatedIssuesAmout}`;
+          console.log('okMessage', okMessage);
           bot.sendMessage(msg.chat.id, okMessage);
         }
       })

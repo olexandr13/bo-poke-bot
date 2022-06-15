@@ -48,19 +48,25 @@ bot.on('message', async (msg) => {
   if (msg.text.toString().toLowerCase().includes(codeReviewTrigger)) {
     checkIssues()
       .then((issues) => {
+        let recentlyUpdatedIssuesAmout = 0;
+        let outDatedIssuesAmount = 0;
+
         for (let i = 0; i < issues.length; i++) {
           const issue = issues[i];
           if (issue.fields.issuetype.subtask) continue;
           // if task was updated less than 2 days ago
           if (calcDaysPassedTillLastUpdate(issue) < 2) {
             console.log(`Issue ${issue.key} was updated ${calcDaysPassedTillLastUpdate(issue)} days ago`);
+            recentlyUpdatedIssuesAmout += 1;
             continue;
           }
+
+          outDatedIssuesAmount += 1;
+
           setTimeout(() => {
             bot.sendMessage(
               msg.chat.id,
-              `
-            ${usernames[issue.fields.assignee?.displayName] || ''}
+              `${usernames[issue.fields.assignee?.displayName] || ''}
 Эта задача висит в Code Review уже ${calcTimePassed(issue)} дней
 
 ${issue.fields.summary}
@@ -68,6 +74,14 @@ https://velasnetwork.atlassian.net/browse/VTX-2375`
             );
           }, 1000 * i);
           return;
+        }
+
+        if (!outDatedIssuesAmount) {
+          let okMessage = '';
+          if (!issues.length) okMessage += '\nВсе задачи прошли Code Review! Это успех!';
+          if (recentlyUpdatedIssuesAmout)
+            `Задач в статусе Code Review: ${recentlyUpdatedIssuesAmout}`;
+          bot.sendMessage(msg.chat.id, okMessage);
         }
       })
       .catch((error) => {
@@ -94,13 +108,12 @@ bot.on('message', async (msg) => {
   }
 });
 
-bot.on('message', async (msg) => {
-  const botPollingTrigger = 'bot:polling';
-  if (msg.text.toString().toLowerCase().includes(botPollingTrigger)) {
-    setInterval(async () => {
-      console.log('testing...');
-      bot.sendMessage(msg.chat.id, 'I am running like a cron');
-    }, 1000 * 15);
-  }
-});
-
+// bot.on('message', async (msg) => {
+//   const botPollingTrigger = 'bot:polling';
+//   if (msg.text.toString().toLowerCase().includes(botPollingTrigger)) {
+//     setInterval(async () => {
+//       console.log('testing...');
+//       bot.sendMessage(msg.chat.id, 'I am running like a cron');
+//     }, 1000 * 15);
+//   }
+// });

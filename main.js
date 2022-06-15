@@ -90,3 +90,11 @@ bot.on('message', async (msg) => {
     bot.sendMessage(msg.chat.id, 'I am alive');
   }
 });
+
+bot.on('message', async (msg) => {
+  const botTestTrigger = 'bot:time';
+
+  if (msg.text.toString().toLowerCase().includes(botTestTrigger)) {
+    bot.sendMessage(msg.chat.id, new Date());
+  }
+});

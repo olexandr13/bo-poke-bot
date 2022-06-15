@@ -12,7 +12,6 @@ const usernames = {
   'Artem Lakhurov': '@artem_lkv',
 };
 
-
 async function checkIssues() {
   try {
     const response = await axios.get(
@@ -67,7 +66,6 @@ bot.on('message', async (msg) => {
             ${usernames[issue.fields.assignee?.displayName] || ''}
 Эта задача висит в Code Review уже ${calcTimePassed(issue)} дней
 
-
 ${issue.fields.summary}
 https://velasnetwork.atlassian.net/browse/VTX-2375`
             );
@@ -80,5 +78,13 @@ https://velasnetwork.atlassian.net/browse/VTX-2375`
           console.log(error);
         }
       });
+  }
+});
+
+bot.on('message', async (msg) => {
+  const botTestTrigger = 'bot:test-alive';
+
+  if (msg.text.toString().toLowerCase().includes(botTestTrigger)) {
+    bot.sendMessage(msg.chat.id, 'I am alive');
   }
 });

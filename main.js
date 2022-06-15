@@ -29,6 +29,12 @@ async function checkIssues() {
   }
 }
 
+function getDaysWordEnding(daysAmount) {
+  if (daysAmount === 1) return 'день';
+  if (daysAmount === 2 || daysAmount === 3 || daysAmount === 4) return 'дня';
+  if (daysAmount >=5 ) return 'дней';
+}
+
 function calcDaysPassedTillLastUpdate(issue) {
   const lastUpdatedDate = new Date(issue.fields.updated);
   const now = new Date();
@@ -55,8 +61,10 @@ bot.on('message', async (msg) => {
           const issue = issues[i];
           if (issue.fields.issuetype.subtask) continue;
           // if task was updated less than 2 days ago
-          if (calcDaysPassedTillLastUpdate(issue) < 2) {
-            console.log(`Issue ${issue.key} was updated ${calcDaysPassedTillLastUpdate(issue)} days ago`);
+
+          const amountOfDaysPassed = calcDaysPassedTillLastUpdate(issue);
+          if (amountOfDaysPassed < 2) {
+            console.log(`Issue ${issue.key} was updated ${amountOfDaysPassed} days ago`);
             recentlyUpdatedIssuesAmout += 1;
             continue;
           }
@@ -68,7 +76,7 @@ bot.on('message', async (msg) => {
               msg.chat.id,
               `${
                 usernames[issue.fields.assignee?.displayName] || ''
-              }\nЭта задача висит в Code Review уже ${calcTimePassed(issue)} дней\n\n${
+              }\nЭта задача висит в Code Review уже ${amountOfDaysPassed} ${getDaysWordEnding(amountOfDaysPassed)}\n\n${
                 issue.fields.summary
               }\nhttps://velasnetwork.atlassian.net/browse/VTX-2375`
             );

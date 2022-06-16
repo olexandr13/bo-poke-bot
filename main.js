@@ -50,11 +50,13 @@ bot.on('message', async (msg) => {
 
   if (msg?.text?.toString().toLowerCase().includes(botTestTrigger)) {
     bot.sendMessage(msg.chat.id, 'I am alive');
+    return;
   }
 
 
   if (msg?.text?.toString().toLowerCase().includes(botTimeTrigger)) {
     bot.sendMessage(msg.chat.id, new Date().toString());
+    return;
   }
 
 

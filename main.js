@@ -43,13 +43,27 @@ function calcDaysPassedTillLastUpdate(issue) {
 }
 
 bot.on('message', async (msg) => {
+  const botTestTrigger = 'bot:test-alive';
+  const botTimeTrigger = 'bot:time';
+  const codeReviewTrigger = 'bot:codereview';
+
+
+  if (msg?.text?.toString().toLowerCase().includes(botTestTrigger)) {
+    bot.sendMessage(msg.chat.id, 'I am alive');
+  }
+
+
+  if (msg?.text?.toString().toLowerCase().includes(botTimeTrigger)) {
+    bot.sendMessage(msg.chat.id, new Date().toString());
+  }
+
+
   // do nothing on weekend
   if (new Date().getDay() === 6 || new Date().getDay() === 0) {
     bot.sendMessage(msg.chat.id, 'I don`t work on weekends, sorry');
     return;
   }
 
-  const codeReviewTrigger = 'bot:codereview';
 
   if (msg?.text?.toString().toLowerCase().includes(codeReviewTrigger)) {
     checkIssues()
@@ -97,22 +111,6 @@ bot.on('message', async (msg) => {
           console.log(error);
         }
       });
-  }
-});
-
-bot.on('message', async (msg) => {
-  const botTestTrigger = 'bot:test-alive';
-
-  if (msg.text.toString().toLowerCase().includes(botTestTrigger)) {
-    bot.sendMessage(msg.chat.id, 'I am alive');
-  }
-});
-
-bot.on('message', async (msg) => {
-  const botTimeTrigger = 'bot:time';
-
-  if (msg.text.toString().toLowerCase().includes(botTimeTrigger)) {
-    bot.sendMessage(msg.chat.id, new Date().toString());
   }
 });
 

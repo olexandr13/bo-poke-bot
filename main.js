@@ -32,7 +32,7 @@ async function checkIssues() {
 function getDaysWordEnding(daysAmount) {
   if (daysAmount === 1) return 'день';
   if (daysAmount === 2 || daysAmount === 3 || daysAmount === 4) return 'дня';
-  if (daysAmount >=5 ) return 'дней';
+  if (daysAmount >= 5) return 'дней';
 }
 
 function calcDaysPassedTillLastUpdate(issue) {
@@ -42,30 +42,17 @@ function calcDaysPassedTillLastUpdate(issue) {
   return Math.floor(timePassed / (1000 * 60 * 60 * 24));
 }
 
+const botTestTrigger = 'bot:test-alive';
+const botTimeTrigger = 'bot:time';
+
 bot.on('message', async (msg) => {
-  const botTestTrigger = 'bot:test-alive';
-  const botTimeTrigger = 'bot:time';
   const codeReviewTrigger = 'bot:codereview';
-
-
-  if (msg?.text?.toString().toLowerCase().includes(botTestTrigger)) {
-    bot.sendMessage(msg.chat.id, 'I am alive');
-    return;
-  }
-
-
-  if (msg?.text?.toString().toLowerCase().includes(botTimeTrigger)) {
-    bot.sendMessage(msg.chat.id, new Date().toString());
-    return;
-  }
-
 
   // do nothing on weekend
   if (new Date().getDay() === 6 || new Date().getDay() === 0) {
     bot.sendMessage(msg.chat.id, 'I don`t work on weekends, sorry');
     return;
   }
-
 
   if (msg?.text?.toString().toLowerCase().includes(codeReviewTrigger)) {
     checkIssues()
@@ -113,6 +100,20 @@ bot.on('message', async (msg) => {
           console.log(error);
         }
       });
+  }
+});
+
+bot.on('message', async (msg) => {
+  if (msg?.text?.toString().toLowerCase().includes(botTestTrigger)) {
+    bot.sendMessage(msg.chat.id, 'I am alive');
+    return;
+  }
+});
+
+bot.on('message', async (msg) => {
+  if (msg?.text?.toString().toLowerCase().includes(botTimeTrigger)) {
+    bot.sendMessage(msg.chat.id, new Date().toString());
+    return;
   }
 });
 

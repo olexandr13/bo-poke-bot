@@ -1,1 +1,1 @@
-worker: node main.js -p $PORT
+web: node main.js -p $PORT --host 0.0.0.0 

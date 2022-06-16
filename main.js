@@ -51,7 +51,7 @@ bot.on('message', async (msg) => {
 
   const codeReviewTrigger = 'bot:codereview';
 
-  if (msg.text.toString().toLowerCase().includes(codeReviewTrigger)) {
+  if (msg?.text?.toString().toLowerCase().includes(codeReviewTrigger)) {
     checkIssues()
       .then((issues) => {
         let recentlyUpdatedIssuesAmout = 0;

@@ -62,9 +62,11 @@ bot.on('message', async (msg) => {
 
         for (let i = 0; i < issues.length; i++) {
           const issue = issues[i];
-          if (issue.fields.issuetype.subtask) continue;
-          // if task was updated less than 2 days ago
 
+          // skip for subtasks
+          if (issue.fields.issuetype.subtask) continue;
+
+          // if task was updated less than 2 days ago
           const amountOfDaysPassed = calcDaysPassedTillLastUpdate(issue);
           if (amountOfDaysPassed < 2) {
             console.log(`Issue ${issue.key} was updated ${amountOfDaysPassed} days ago`);
@@ -73,7 +75,8 @@ bot.on('message', async (msg) => {
           }
 
           outDatedIssuesAmount += 1;
-
+          
+          console.log(`Outdated issue: ${issue.key} - ${issue.fields.summary}`);
           setTimeout(() => {
             bot.sendMessage(
               msg.chat.id,
@@ -81,7 +84,7 @@ bot.on('message', async (msg) => {
                 usernames[issue.fields.assignee?.displayName] || ''
               }\nЭта задача висит в Code Review уже ${amountOfDaysPassed} ${getDaysWordEnding(amountOfDaysPassed)}\n\n${
                 issue.fields.summary
-              }\nhttps://velasnetwork.atlassian.net/browse/VTX-2375`
+              }\nhttps://velasnetwork.atlassian.net/browse/${issue.key}`
             );
           }, 1000 * i);
         }

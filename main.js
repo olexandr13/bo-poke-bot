@@ -64,7 +64,10 @@ bot.on('message', async (msg) => {
           const issue = issues[i];
 
           // skip for subtasks
-          if (issue.fields.issuetype.subtask) continue;
+          if (issue.fields.issuetype.subtask) {
+            console.log(`Subtask: ${issue.key} - ${issue.fields.summary}`);
+            continue;
+          }
 
           // if task was updated less than 2 days ago
           const amountOfDaysPassed = calcDaysPassedTillLastUpdate(issue);

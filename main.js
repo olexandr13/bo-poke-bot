@@ -48,13 +48,13 @@ const botTimeTrigger = 'bot:time';
 bot.on('message', async (msg) => {
   const codeReviewTrigger = 'bot:codereview';
 
-  // do nothing on weekend
-  if (new Date().getDay() === 6 || new Date().getDay() === 0) {
-    bot.sendMessage(msg.chat.id, 'I don`t work on weekends, sorry');
-    return;
-  }
-
   if (msg?.text?.toString().toLowerCase().includes(codeReviewTrigger)) {
+    // do nothing on weekend
+    if (new Date().getDay() === 6 || new Date().getDay() === 0) {
+      bot.sendMessage(msg.chat.id, 'I don`t work on weekends, sorry');
+      return;
+    }
+
     checkIssues()
       .then((issues) => {
         let recentlyUpdatedIssuesAmout = 0;
@@ -78,7 +78,7 @@ bot.on('message', async (msg) => {
           }
 
           outDatedIssuesAmount += 1;
-          
+
           console.log(`Outdated issue: ${issue.key} - ${issue.fields.summary}`);
           setTimeout(() => {
             bot.sendMessage(

@@ -10,6 +10,7 @@ const usernames = {
   'Kostya Pogromskiy': '@ssgkos',
   'Denys Bogatyrchuk': '@jksdtyrtjk',
   'Artem Lakhurov': '@artem_lkv',
+  'Alexander Tartmin': '@Baskerville42',
 };
 
 async function checkIssues() {
